@@ -1,10 +1,10 @@
-import { hot } from 'react-hot-loader';
+import { hot } from 'react-hot-loader/root';
 import React from 'react';
 
 import ReferenceRow from './ReferenceRow.js';
 import staticData from '../static/BMIdata.js';
 
-import { Wrapper, Title, Box, BoxPad, InputRowTitle, InputValue, InputWrapper } from '../styles/AppStyles.js';
+import css from '../css/App.css';
 
 class App extends React.Component {
   state = {
@@ -56,38 +56,42 @@ class App extends React.Component {
     const inputs = [{ title: 'Weight [kg]', key: 'weight' }, { title: 'Height [cm]', key: 'height' }];
     return inputs.map(input => {
       return (
-        <InputWrapper key={input.key}>
-          <InputRowTitle>{input.title}</InputRowTitle>
-          <InputValue
+        <css.InputWrapper key={input.key}>
+          <css.InputRowTitle>{input.title}</css.InputRowTitle>
+          <css.InputValue
             value={this.state[input.key]}
             onChange={evt => this.changeValue(input.key, evt)}
             onKeyDown={evt => this.inputKeyDown(input.key, evt)}
           />
-        </InputWrapper>
+        </css.InputWrapper>
       );
     });
   }
 
+  renderIntroduction() {
+    return (
+      <css.Box type="desc">
+        <css.Intro>Introduction</css.Intro>
+        The body mass index (BMI) or Quetelet index is a value derived from the mass (weight) and height of an
+        individual. The BMI is defined as the body mass divided by the square of the body height, and is
+        universally expressed in units of kg/m2, resulting from mass in kilograms and height in metres.
+      </css.Box>
+    );
+  }
+
   render() {
     return (
-      <Wrapper>
-        <Title>BMI 1.0</Title>
-        <Box>
+      <css.Wrapper>
+        <css.Title>BMI 1.0</css.Title>
+        <css.Box>
           <ReferenceRow data={this.state.calculatedItem} />
-        </Box>
-        <Box>{this.renderInputs()}</Box>
-        <Box>{this.renderStaticData()}</Box>
-        <BoxPad>
-          Introduction
-          <br />
-          <br />
-          The body mass index (BMI) or Quetelet index is a value derived from the mass (weight) and height of
-          an individual. The BMI is defined as the body mass divided by the square of the body height, and is
-          universally expressed in units of kg/m2, resulting from mass in kilograms and height in metres.
-        </BoxPad>
-      </Wrapper>
+        </css.Box>
+        <css.BoxPadInputs>{this.renderInputs()}</css.BoxPadInputs>
+        <css.Box>{this.renderStaticData()}</css.Box>
+        {this.renderIntroduction()}
+      </css.Wrapper>
     );
   }
 }
 
-export default hot(module)(App);
+export default hot(App);

@@ -1,7 +1,7 @@
-import { hot } from 'react-hot-loader';
 import React from 'react';
+import PropTypes from 'prop-types';
 
-import { Reference, ColorSquare, Title, Value, Pad } from '../styles/ReferenceRowStyles.js';
+import css from '../css/ReferenceRow.css';
 
 const renderValue = data => {
   if (Array.isArray(data)) {
@@ -13,24 +13,27 @@ const renderValue = data => {
     }
     return data.map(x => x.toLocaleString('sl', { minimumFractionDigits: 2 })).join(' - ');
   }
-  /* if it's not and array, then it's a string */
+  /* if it's not an array, then it's a string */
   return data;
 };
 
 const ReferenceRow = ({ data, calculatedItem }) => {
   const { color, title, value } = data;
-  let referenceStyle = calculatedItem && calculatedItem.title === title ? { backgroundColor: '#F0F0F0' } : {};
   if (!value) {
-    return <Pad>Please input Weight and Height</Pad>;
+    return <css.Pad>Please input Weight and Height</css.Pad>;
   }
-  const colorSquareStyle = { backgroundColor: color };
   return (
-    <Reference style={referenceStyle}>
-      <ColorSquare style={colorSquareStyle} />
-      <Title>{title}</Title>
-      <Value>{renderValue(value)}</Value>
-    </Reference>
+    <css.Reference active={calculatedItem && calculatedItem.title === title}>
+      <css.ColorSquare bg={color} />
+      <css.Title>{title}</css.Title>
+      <css.Value>{renderValue(value)}</css.Value>
+    </css.Reference>
   );
 };
 
-export default hot(module)(ReferenceRow);
+ReferenceRow.propTypes = {
+  data: PropTypes.object.isRequired,
+  calculatedItem: PropTypes.object.isRequired,
+};
+
+export default ReferenceRow;

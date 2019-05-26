@@ -12,6 +12,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       title: 'BMI calculator',
+      template: './src/index.html',
     }),
   ],
   devServer: {
@@ -40,5 +41,5 @@ module.exports = {
       },
     ],
   },
-  devtool: 'eval-source-map',
+  devtool: 'source-map',
 };
